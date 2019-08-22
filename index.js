@@ -36,26 +36,25 @@ function logRequests(req, res, next) {
 
 server.use(logRequests);
 
-/**********
- * Routes *
- **********/
-
-server.post("/projects", (req, res) => {
-  const { id, title } = req.body;
-
-  projects.push({
-    id,
-    title,
-    tasks: []
-  });
-
-  res.json({
-    message: `Projeto de id ${id}, título ${title} cadastrado com sucesso!`
-  });
-});
+/************
+ * Projects *
+ ************/
 
 server.get("/projects", (req, res) => {
   return res.json(projects);
+});
+
+server.post("/projects", (req, res) => {
+  const { id, title } = req.body;
+  const project = {
+    id,
+    title,
+    tasks: []
+  };
+
+  projects.push(project);
+
+  res.json(project);
 });
 
 server.put("/projects/:id", checkProjectExists, (req, res) => {
@@ -64,7 +63,7 @@ server.put("/projects/:id", checkProjectExists, (req, res) => {
 
   project.title = title;
 
-  return res.json(projects);
+  return res.json(project);
 });
 
 server.delete("/projects/:id", checkProjectExists, (req, res) => {
@@ -76,13 +75,16 @@ server.delete("/projects/:id", checkProjectExists, (req, res) => {
   return res.send();
 });
 
+/*********
+ * Tasks *
+ *********/
 server.post("/projects/:id/tasks", checkProjectExists, (req, res) => {
   const { title } = req.body;
   const { project } = req;
 
   project.tasks.push(title);
 
-  return res.json(projects);
+  return res.json(project);
 });
 
 server.listen(3000);
