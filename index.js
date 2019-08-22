@@ -69,7 +69,6 @@ server.put("/projects/:id", checkProjectExists, (req, res) => {
 
 server.delete("/projects/:id", checkProjectExists, (req, res) => {
   const { project } = req;
-
   const indexOfProject = projects.indexOf(project);
 
   projects.splice(indexOfProject, 1);
