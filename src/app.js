@@ -1,5 +1,8 @@
 import express from 'express';
 import routes from './routes';
+
+import './database';
+
 import logRequests from './app/middlewares/logRequests';
 
 class App {
